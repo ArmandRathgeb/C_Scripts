@@ -2,6 +2,7 @@
 //shebang to run as c script
 
 #include <stdio.h>
+#include <locale.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
@@ -29,6 +30,7 @@ static color_t colors[] = {
 };
 
 int main(int argc, char** argv) {
+    setlocale(LC_CTYPE, "");
     wchar_t buf[256] = {};
     color_index_t index = -1; 
     int file_flag = 1, string_flag = 0;
@@ -123,13 +125,13 @@ void printFile(FILE* f, color_index_t ind) {
 void colorPrint(const wchar_t* wc, color_index_t ind) {
     if (ind < 0) {
         while (L'\0' != *wc) {
-            wprintf(L"%s%c", colors[++ind], *wc);
+            wprintf(L"%s%lc", colors[++ind], *wc);
             if (ind == 5) ind = -1;
             wc++;
         }
     } else {
         while (L'\0' != *wc) {
-            wprintf(L"%s%c", colors[ind], *wc++);
+            wprintf(L"%s%lc", colors[ind], *wc++);
         }
     }
 }
